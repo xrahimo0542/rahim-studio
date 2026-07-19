@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* HSL Color Palette - Premium Modern Dark Minimalist */
+  --bg-primary: 240, 10%, 4%;       /* Dark Charcoal Black #09090b */
+  --bg-secondary: 240, 10%, 7%;     /* Deep Obsidian #121214 */
+  --text-primary: 210, 40%, 98%;    /* Ice White text #f8fafc */
+  --text-secondary: 215, 15%, 70%;  /* Muted silver-slate #9ca3af */
+  
+  --primary: 243, 75%, 65%;         /* Vivid Electric Indigo #6366f1 */
+  --primary-glow: rgba(99, 102, 241, 0.15);
+  --accent: 200, 95%, 55%;          /* Sky blue #0ea5e9 */
+  --accent-glow: rgba(14, 165, 233, 0.15);
+  
+  --danger: 342, 75%, 60%;          /* Vivid Red */
+  --success: 150, 80%, 50%;         /* Emerald green */
+  
+  --border-glass: rgba(255, 255, 255, 0.08); /* Soft slate transparent border */
+  --bg-glass: rgba(18, 18, 22, 0.85);        /* Dark glass card backdrop */
+  
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: hsl(var(--bg-primary));
+  color: hsl(var(--text-primary));
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  background-color: hsl(var(--bg-primary));
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--bg-primary));
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Override all radial soft glows */
+[style*="radial-gradient"], [style*="radial-gradient"] ~ div {
+  background: none !important;
+}
+
+/* Base Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: hsl(var(--text-primary));
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+/* Utility Layouts */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: hsl(var(--text-primary));
+  margin-bottom: 0.8rem;
+}
+
+.section-header p {
+  color: hsl(var(--text-secondary));
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+/* Modern Card Style */
+.glass-card {
+  background: hsl(var(--bg-secondary));
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 12px !important;
+  padding: 2rem;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Interactive Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.8rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  border-radius: 30px !important;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  border: 1px solid var(--border-glass);
+}
+
+.btn-primary {
+  background: #ffffff;
+  color: #09090b;
+  border: 1px solid #ffffff;
+}
+
+.btn-primary:hover {
+  background: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid var(--border-glass);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: transparent;
+  color: hsl(var(--danger));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: hsl(var(--danger));
+  transform: translateY(-1px);
+}
+
+/* Navigation Menu */
+nav.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  background: hsl(var(--bg-primary));
+  border-bottom: 1px solid var(--border-glass);
+  transition: var(--transition-smooth);
+}
+
+nav.navbar.scrolled {
+  padding: 1rem 0;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-item a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: hsl(var(--text-secondary));
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+}
+
+.nav-item a:hover, .nav-item.active a {
+  color: hsl(var(--text-primary));
+}
+
+.nav-toggle {
+  display: block;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Form Fields Styling */
+input, textarea, select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: hsl(var(--bg-secondary)) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 8px !important;
+  color: hsl(var(--text-primary)) !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+  background: hsl(var(--bg-secondary)) !important;
+  border-color: hsl(var(--primary)) !important;
+  box-shadow: 0 0 0 3px var(--primary-glow) !important;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-only {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: hsl(var(--bg-primary));
+    border-bottom: 1.5px solid var(--border-glass);
+    padding: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .mobile-only.open {
+    display: flex;
+  }
+  
+  .nav-toggle {
+    display: block;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Card Hover Triggers */
+.project-card-container:hover .image-overlay {
+  opacity: 1 !important;
+}
+
+.project-card-container:hover .project-image {
+  transform: scale(1.05);
+}

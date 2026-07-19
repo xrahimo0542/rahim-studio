@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-monorepo",
+  "version": "1.0.0",
+  "description": "Vercel-compatible multimedia portfolio website monorepo",
+  "private": true,
+  "scripts": {
+    "install:backend": "npm install --prefix api",
+    "install:frontend": "npm install --prefix frontend",
+    "install-all": "npm run install:backend && npm run install:frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build": "npm run build:frontend"
+  }
+}

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+api/node_modules/
+frontend/node_modules/
+
+# Database (local only)
+api/portfolio.db
+
+# Environment secrets
+api/.env
+.env
+
+# Build output
+frontend/dist/
+
+# Uploaded images (too large for git)
+api/uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
