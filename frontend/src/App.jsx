@@ -9,7 +9,7 @@ import Admin from './pages/Admin';
 // Dynamically target backend URL depending on Vercel deployment vs. local hosting
 export const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api'
-  : '/api';
+  : 'https://rahim-studio-production.up.railway.app/api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
