@@ -587,43 +587,39 @@ export default function Admin({ token, setToken }) {
                             type="file"
                             accept="image/*"
                             multiple
-                            onChange={(e) => {
+                            onChange={async (e) => {
                               const files = Array.from(e.target.files);
-                              files.forEach(file => {
+                              for (const file of files) {
                                 if (file.size > 20 * 1024 * 1024) {
                                   alert('File is too large! Please upload under 20MB.');
-                                  return;
+                                  continue;
                                 }
+                                // Read as base64 to send to Cloudinary via backend
                                 const reader = new FileReader();
-                                reader.onload = (event) => {
-                                  const img = new Image();
-                                  img.onload = () => {
-                                    const canvas = document.createElement('canvas');
-                                    let width = img.width;
-                                    let height = img.height;
-                                    const MAX_LEN = 1600;
-                                    if (width > height) {
-                                      if (width > MAX_LEN) {
-                                        height *= MAX_LEN / width;
-                                        width = MAX_LEN;
-                                      }
-                                    } else {
-                                      if (height > MAX_LEN) {
-                                        width *= MAX_LEN / height;
-                                        height = MAX_LEN;
-                                      }
-                                    }
-                                    canvas.width = width;
-                                    canvas.height = height;
-                                    const ctx = canvas.getContext('2d');
-                                    ctx.drawImage(img, 0, 0, width, height);
-                                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-                                    setImageUrls(prev => [...prev, compressedDataUrl]);
-                                  };
-                                  img.src = event.target.result;
-                                };
-                                reader.readAsDataURL(file);
-                              });
+                                const base64 = await new Promise((resolve) => {
+                                  reader.onload = (ev) => resolve(ev.target.result);
+                                  reader.readAsDataURL(file);
+                                });
+                                try {
+                                  const res = await fetch(`${API_BASE}/admin/upload`, {
+                                    method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization': `Bearer ${token}`
+                                    },
+                                    body: JSON.stringify({ image: base64 })
+                                  });
+                                  const data = await res.json();
+                                  if (data.url) {
+                                    setImageUrls(prev => [...prev, data.url]);
+                                  } else {
+                                    alert('Upload failed: ' + (data.error || 'Unknown error'));
+                                  }
+                                } catch (err) {
+                                  console.error('Upload error:', err);
+                                  alert('Upload failed. Check your connection.');
+                                }
+                              }
                               e.target.value = '';
                             }}
                             style={{

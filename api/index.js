@@ -3,7 +3,15 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
+const cloudinary = require('cloudinary').v2;
 require('dotenv').config();
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const { initDatabase, query } = require('./db');
 const {
@@ -225,6 +233,24 @@ app.delete('/api/admin/messages/:id', verifyToken, async (req, res) => {
   }
 });
 
+// Upload image to Cloudinary
+app.post('/api/admin/upload', verifyToken, async (req, res) => {
+  const { image } = req.body; // base64 data URL
+  if (!image) return res.status(400).json({ error: 'No image provided.' });
+
+  try {
+    const result = await cloudinary.uploader.upload(image, {
+      folder: 'rahim-studio',
+      resource_type: 'image',
+      transformation: [{ quality: 'auto', fetch_format: 'auto' }],
+    });
+    res.json({ url: result.secure_url });
+  } catch (error) {
+    console.error('Cloudinary upload error:', error);
+    res.status(500).json({ error: 'Image upload failed.' });
+  }
+});
+
 // Create project
 app.post('/api/admin/projects', verifyToken, async (req, res) => {
   const { title, description, image_url, video_url, live_url, github_url, tags, display_order } = req.body;
@@ -342,18 +368,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on the server.' });
 });
 
-// Conditional local listener (Vercel automatically wraps this exported app serverless-ly)
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+// Start server (Railway production or local dev)
+if (!process.env.VERCEL) {
   initDatabase().then(() => {
     app.listen(PORT, () => {
       console.log(`[SECURE SERVER] Listening on port ${PORT}`);
     });
   }).catch(err => {
-    console.error('Failed to initialize local database:', err);
+    console.error('Failed to initialize database:', err);
   });
 } else {
-  // In serverless production contexts, trigger schema setups lazily
-  initDatabase().catch(err => console.error('Vercel DB initialization error:', err));
+  // Vercel serverless — lazy init
+  initDatabase().catch(err => console.error('Vercel DB init error:', err));
 }
 
 module.exports = app;
