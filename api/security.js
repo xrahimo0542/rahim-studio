@@ -35,7 +35,7 @@ const securityHeaders = helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://images.pexels.com"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://images.pexels.com", "https://res.cloudinary.com", "blob:"],
       connectSrc: ["'self'", "http://localhost:5000", "ws://localhost:5173", "http://localhost:5173", "https://*.vercel.app"],
       frameSrc: ["'self'", "https://www.youtube.com", "https://player.vimeo.com"] // Allow video embeds
     }
